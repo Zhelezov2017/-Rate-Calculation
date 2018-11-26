@@ -60,15 +60,19 @@ p = 8.298; N_max = 0;%%% L = 3 * a_0;
 
 % p = 30.3006; N_max = 5;%%% L = 3 * a_0; w_H = - 0.00001;
 % p = 30.330261164313598; N_max = 12;%%% L = 3 * a_0; w_H = - 0.00001;
- q = sqrt(1-p^2);
+
  
 
 %%%% вычисляем коэффициены рассеяния (D), коэффициенты падения (C) и
 %%%% коэффициенты рассеяния одиночного цилиндра (S)
     [BD] = crystalCoefficients2D_eigenwave(N_max, w_0, a_0, cylXY, k_0, EE, GG, HH, c, p);
-    
-    
-    men = RateCalculation(k_0, q, a_0, EE, GG, HH );
+    q = sqrt(1-p^2);
+    q = q.* (2*(imag(q) <= 0)-1);
+    %men = RateCalculation(k_0, q, a_0, EE, GG, HH );
+    ron = RateCalculation2(k_0, q, a_0, EE, GG, HH );
+
+    %Integral = NumericalIntegral(k_0, q, a_0, EE, GG, HH );
+    Integral = NumericalIntegralTrapz(k_0, q, a_0, EE, GG, HH )
 
     N_cylinders = size(cylXY,1)
 %%%% задаём границы в которых будем строить поле
